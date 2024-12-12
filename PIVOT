@@ -1,0 +1,34 @@
+USE ROLE ACCOUNTADMIN;
+USE WAREHOUSE XSMALL_WAREHOUSE;
+USE SCHEMA SNOWFLAKE_SAMPLE_DATA.TPCH_SF1;
+
+SELECT * FROM ORDERS;
+
+SELECT * FROM TABLE_NAME
+PIVOT (
+    <aggregate_function>(<column_to_aggregate>)
+    FOR <column_to_pivot>
+    IN (<pivot_values>)
+);
+
+SELECT 
+    DISTINCT(YEAR(O_ORDERDATE)) AS ORDER_YEAR
+FROM ORDERS
+ORDER BY ORDER_YEAR;
+
+-- Menampilkan total pesanan tiap customer pertahunnya
+WITH ORDERS_WITH_YEAR AS (
+    SELECT 
+        O_CUSTKEY, O_TOTALPRICE,
+        YEAR(O_ORDERDATE) AS ORDER_YEAR
+    FROM ORDERS
+)
+SELECT 
+    *
+FROM ORDERS_WITH_YEAR
+PIVOT (
+    SUM(O_TOTALPRICE)
+    FOR ORDER_YEAR IN (1992, 1993, 1994, 1995, 1996, 1997, 1998)
+);
+-- IN harus manual, tidak bisa dengan Column
+-- Distinct tidak bisa di subquery (year)
