@@ -22,6 +22,9 @@ SHOW VIEWS IN DATABASE SNOWFLAKE_SAMPLE_DATA LIMIT 10;
 USE SCHEMA DEMO_DB.DEMO_SCHEMA;
 
 SHOW TABLES;
+-- Ada tabel apa saja, berapa byte, ownernya, dll
+
+-- SHOW TABLE EMPLOYEE; salah
 
 -- Parameters
 
