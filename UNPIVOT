@@ -1,0 +1,46 @@
+USE ROLE SYSADMIN;
+USE SCHEMA DEMO_DB.DEMO_SCHEMA;
+USE WAREHOUSE XSMALL_WAREHOUSE;
+
+CREATE TABLE SALES (
+    PRODUCT_ID INT,
+    PRODUCT_NAME VARCHAR(100),
+    JAN_SALES DECIMAL(10, 2),
+    FEB_SALES DECIMAL(10, 2),
+    MAR_SALES DECIMAL(10, 2)
+);
+
+INSERT INTO SALES (PRODUCT_ID, PRODUCT_NAME, JAN_SALES, FEB_SALES, MAR_SALES) 
+VALUES
+(1, 'Laptop', 1200.50, 1300.75, 1100.80),
+(2, 'Smartphone', 900.20, 950.40, 880.15),
+(3, 'Tablet', 650.30, 700.25, 710.10);
+
+SELECT * FROM SALES;
+
+SELECT 
+    column1,  -- Kolom yang ingin dipertahankan
+    column2,  -- Kolom yang ingin dipertahankan
+    unpivoted_column,  -- Kolom baru untuk nama kolom yang diubah menjadi baris
+    unpivoted_value  -- Kolom baru untuk nilai yang dipindahkan
+FROM 
+    (SELECT column1, column2, column_to_unpivot1, column_to_unpivot2 FROM table_name) AS Source
+UNPIVOT
+    (unpivoted_value FOR unpivoted_column IN (column_to_unpivot1, column_to_unpivot2)) AS unpivoted_data;
+
+SELECT 
+    PRODUCT_ID,
+    PRODUCT_NAME,
+    MONTH,
+    SALES
+FROM 
+    (SELECT 
+        PRODUCT_ID,
+        PRODUCT_NAME,
+        JAN_SALES,
+        FEB_SALES,
+        MAR_SALES
+     FROM SALES) AS Source
+UNPIVOT 
+    (SALES FOR MONTH IN (JAN_SALES, FEB_SALES, MAR_SALES)) AS UnpivotedData;
+-- Di syntaks ini Subquery bisa * dan AS Source bisa dihilangkan
