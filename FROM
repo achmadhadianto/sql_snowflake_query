@@ -43,6 +43,8 @@ SELECT
     ROUND(RATING * 10) || '%' AS RATING_PERCENTAGE
 FROM 
     MOVIE;
+-- Release_Country isinya US semua
+-- ROUND -> membulatkan tambah persen, bisa pakai ROUND(nilai, [2] -> max dibelakang desimal)
 
 CREATE TABLE MOVIE_US 
 AS
@@ -63,6 +65,7 @@ SELECT
     DISTINCT GENRE 
 FROM 
     MOVIE;
+-- Tidak duplicate
 
 -- DISTINCT across multiple columns
 SELECT 
@@ -87,6 +90,7 @@ LIMIT
     10
 OFFSET
     5;
+-- Loncat 5, mulai dari yang nomor ke 6
 
 -- Remove unrequired table 
 DROP TABLE IF EXISTS MOVIE_US;
